@@ -5,6 +5,8 @@
 package it.polito.tdp.food;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import it.polito.tdp.food.model.Model;
@@ -49,7 +51,29 @@ public class FoodController {
     @FXML
     void doCammino(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Cerco cammino peso massimo...");
+    	if (this.boxPorzioni.getValue()==null) {
+    		txtResult.setText("Inserire una porzione da cui calcolare il cammino");
+    		return;
+    	}
+    	try {
+    		int n = Integer.parseInt(txtPassi.getText());
+    		if (n<1) {
+    			txtResult.setText("Inserire un valore di passi almeno pari ad 1");
+    			return;
+    		}
+    		List<String> cammino = new LinkedList<>(this.model.getCamminoMax(n, this.boxPorzioni.getValue()));
+    		if (cammino.isEmpty()) {
+    			txtResult.setText("Cammino con i passi selezionati non disponibile");
+    			return;
+    		}
+    		txtResult.appendText("Cammino di massimo peso:\n");
+    		for (String s : cammino) {
+    			txtResult.appendText(s+"\n");
+    		}
+    		txtResult.appendText("Peso del cammino: "+this.model.getPesoMax());
+    	} catch (NumberFormatException e) {
+    		txtResult.setText("Errore: inserire un valore numerico intero come numero di passi.");
+    	}
     }
 
     @FXML

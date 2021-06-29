@@ -15,8 +15,10 @@ import it.polito.tdp.food.db.FoodDao;
 
 public class Model {
 	
-	public Graph<String, DefaultWeightedEdge> grafo;
-	public FoodDao dao;
+	private Graph<String, DefaultWeightedEdge> grafo;
+	private FoodDao dao;
+	private List<String> camminoMax;
+	private int pesoMax;
 	
 	public Model() {
 		this.dao = new FoodDao();
@@ -57,6 +59,38 @@ public class Model {
 		return this.grafo.edgeSet().size();
 	}
 	
+	public List<String> getCamminoMax(int n, String s) {
+		this.pesoMax = 0;
+		List<String> cammino = new LinkedList<>();
+		this.camminoMax = new LinkedList<>();
+		cammino.add(s);
+		ricorsione(s, cammino, 0, n);
+		return this.camminoMax;
+	}
+
+	private void ricorsione(String s, List<String> cammino, int peso, int n) {
+		
+		if (cammino.size()==n) {
+			if (peso>pesoMax) {
+				this.pesoMax = peso;
+				this.camminoMax = new LinkedList<>(cammino);
+			}
+			return;
+		} else {
+			for (String vicino : Graphs.neighborListOf(grafo, s)) {
+				if (!cammino.contains(vicino)) {
+					cammino.add(vicino);
+					ricorsione(vicino, cammino, (int) (peso + this.grafo.getEdgeWeight(this.grafo.getEdge(s, vicino))), n);
+					cammino.remove(vicino);
+				}
+			}
+		}
+		
+	}
+
+	public int getPesoMax() {
+		return pesoMax;
+	}
 	
 	
 }
