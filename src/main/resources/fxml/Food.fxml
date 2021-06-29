@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="473.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.food.FoodController">
+<BorderPane prefHeight="473.0" prefWidth="428.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.food.FoodController">
    <top>
       <Label text="Esame 03/09/2019" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -52,12 +52,12 @@
                         <Insets right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="btnCorrelate" mnemonicParsing="false" onAction="#doCorrelate" prefWidth="80.0" text="Correlate" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <Button fx:id="btnCorrelate" disable="true" mnemonicParsing="false" onAction="#doCorrelate" prefWidth="80.0" text="Correlate" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="btnCammino" mnemonicParsing="false" onAction="#doCammino" prefWidth="80.0" text="Cammino" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <Button fx:id="btnCammino" disable="true" mnemonicParsing="false" onAction="#doCammino" prefWidth="80.0" text="Cammino" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets right="20.0" />
                      </GridPane.margin>

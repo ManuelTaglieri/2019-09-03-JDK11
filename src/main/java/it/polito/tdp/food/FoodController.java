@@ -5,6 +5,7 @@
 package it.polito.tdp.food;
 
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import it.polito.tdp.food.model.Model;
 import javafx.event.ActionEvent;
@@ -40,7 +41,7 @@ public class FoodController {
     private Button btnCammino; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxPorzioni"
-    private ComboBox<?> boxPorzioni; // Value injected by FXMLLoader
+    private ComboBox<String> boxPorzioni; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
@@ -54,14 +55,38 @@ public class FoodController {
     @FXML
     void doCorrelate(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Cerco porzioni correlate...");
+    	if (this.boxPorzioni.getValue()==null) {
+    		txtResult.setText("Inserire una porzione di cui calcolare le correlate");
+    		return;
+    	}
+    	Map<String, Integer> connessioni = this.model.getConnessioni(this.boxPorzioni.getValue());
+    	this.txtResult.setText("Elenco delle correlate:\n");
+    	for (String s : connessioni.keySet()) {
+    		txtResult.appendText(s+" - "+connessioni.get(s)+"\n");
+    	}
     	
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Creazione grafo...");
+    	try {
+    		int calorie = Integer.parseInt(txtCalorie.getText());
+    		if (calorie<1) {
+    			txtResult.setText("Inserire almeno un valore pari ad 1 per le calorie");
+    			return;
+    		}
+    		this.model.creaGrafo(calorie);
+    		txtResult.appendText("Grafo creato!\n");
+    		txtResult.appendText("# Vertici: "+this.model.getNumVertici()+"\n");
+    		txtResult.appendText("# Archi: "+this.model.getNumArchi());
+    		btnCorrelate.setDisable(false);
+    		btnCammino.setDisable(false);
+    		boxPorzioni.getItems().addAll(this.model.getVertici());
+    		
+    	} catch (NumberFormatException e) {
+    		txtResult.setText("Errore: inserire un valore numerico intero come calorie");
+    	}
     	
     }
 
